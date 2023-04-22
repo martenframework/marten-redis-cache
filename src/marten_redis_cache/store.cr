@@ -52,6 +52,10 @@ module MartenRedisCache
       end
     end
 
+    def delete_entry(key : String) : Bool
+      client.del(key) == 1_i64
+    end
+
     def increment(
       key : String,
       amount : Int32 = 1,
@@ -77,6 +81,25 @@ module MartenRedisCache
       end
     end
 
+    def read_entry(key : String) : String?
+      client.get(key)
+    end
+
+    def write_entry(
+      key : String,
+      value : String,
+      expires_in : Time::Span? = nil,
+      race_condition_ttl : Time::Span? = nil
+    )
+      # Add an extra 5 minutes to the expiry of the Redis entry to allow for race condition TTL reads.
+      if !expires_in.nil? && !race_condition_ttl.nil?
+        expires_in += 5.minutes
+      end
+
+      client.set(key, value, expires_in.try(&.total_seconds.to_i))
+      true
+    end
+
     private def adapt_expiry_for_race_condition(expires_in : Time::Span? = nil, race_condition_ttl : Time::Span? = nil)
       # Add an extra 5 minutes to the expiry of the memcached entry to allow for race condition TTL reads.
       if !expires_in.nil? && !race_condition_ttl.nil?
@@ -84,10 +107,6 @@ module MartenRedisCache
       end
 
       expires_in
-    end
-
-    private def delete_entry(key : String) : Bool
-      client.del(key) == 1_i64
     end
 
     private def delete_namespaced_keys
@@ -101,25 +120,6 @@ module MartenRedisCache
 
         break if cursor.to_s == "0"
       end
-    end
-
-    private def read_entry(key : String) : String?
-      client.get(key)
-    end
-
-    private def write_entry(
-      key : String,
-      value : String,
-      expires_in : Time::Span? = nil,
-      race_condition_ttl : Time::Span? = nil
-    )
-      # Add an extra 5 minutes to the expiry of the Redis entry to allow for race condition TTL reads.
-      if !expires_in.nil? && !race_condition_ttl.nil?
-        expires_in += 5.minutes
-      end
-
-      client.set(key, value, expires_in.try(&.total_seconds.to_i))
-      true
     end
   end
 end
