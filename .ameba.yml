@@ -59,6 +59,9 @@ Lint/ShadowedException:
 Lint/ShadowingOuterLocalVar:
   Enabled: true
 
+Lint/SpecFilename:
+  Enabled: false
+
 Lint/UnreachableCode:
   Enabled: true
 
@@ -69,6 +72,9 @@ Lint/UselessConditionInWhen:
   Enabled: true
 
 Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Naming/BlockParameterName:
   Enabled: false
 
 Performance/AnyAfterFilter:
