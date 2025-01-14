@@ -11,7 +11,7 @@ module MartenRedisCache
       @version : Int32? = nil,
       @compress = true,
       @compress_threshold = Marten::Cache::Store::Base::DEFAULT_COMPRESS_THRESHOLD,
-      uri : String? = nil
+      uri : String? = nil,
     )
       super(@namespace, @expires_in, @version, @compress, @compress_threshold)
 
@@ -35,7 +35,7 @@ module MartenRedisCache
       version : Int32? = nil,
       race_condition_ttl : Time::Span? = nil,
       compress : Bool? = nil,
-      compress_threshold : Int32? = nil
+      compress_threshold : Int32? = nil,
     ) : Int
       normalized_key = normalize_key(key.to_s)
 
@@ -64,7 +64,7 @@ module MartenRedisCache
       version : Int32? = nil,
       race_condition_ttl : Time::Span? = nil,
       compress : Bool? = nil,
-      compress_threshold : Int32? = nil
+      compress_threshold : Int32? = nil,
     ) : Int
       normalized_key = normalize_key(key.to_s)
 
@@ -89,7 +89,7 @@ module MartenRedisCache
       key : String,
       value : String,
       expires_in : Time::Span? = nil,
-      race_condition_ttl : Time::Span? = nil
+      race_condition_ttl : Time::Span? = nil,
     )
       # Add an extra 5 minutes to the expiry of the Redis entry to allow for race condition TTL reads.
       if !expires_in.nil? && !race_condition_ttl.nil?
