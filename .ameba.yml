@@ -101,6 +101,9 @@ Style/MethodNames:
 Style/NegatedConditionsInUnless:
   Enabled: false
 
+Style/PercentLiteralDelimiters:
+  Enabled: false
+
 Style/PredicateName:
   Enabled: true
 
