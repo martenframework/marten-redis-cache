@@ -96,7 +96,7 @@ module MartenRedisCache
         expires_in += 5.minutes
       end
 
-      client.set(key, value, expires_in.try(&.total_seconds.to_i))
+      client.set(key, value, ex: expires_in.try(&.total_seconds.to_i))
       true
     end
 
