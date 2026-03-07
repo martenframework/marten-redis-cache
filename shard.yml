@@ -19,5 +19,6 @@ development_dependencies:
     github: crystal-ameba/ameba
   timecop:
     github: crystal-community/timecop.cr
+    commit: 85a4fb2
 
 license: MIT
